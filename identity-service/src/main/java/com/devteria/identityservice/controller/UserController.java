@@ -1,9 +1,11 @@
 package com.devteria.identityservice.controller;
 
+import com.devteria.identityservice.dto.request.ApiResponse;
 import com.devteria.identityservice.dto.request.UserCreationRequest;
 import com.devteria.identityservice.dto.request.UserUpdateRequest;
 import com.devteria.identityservice.entity.User;
 import com.devteria.identityservice.service.UserService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,8 +18,12 @@ public class UserController {
     private UserService userService;
 
     @PostMapping
-    User createUser(@RequestBody UserCreationRequest request){
-        return userService.createUser(request);
+    ApiResponse<User> createUser(@RequestBody @Valid UserCreationRequest request){
+
+        ApiResponse<User> api = new ApiResponse<>();
+        api.setCode(1000);
+        api.setResult(userService.createUser(request));
+        return api;
     }
 
     @GetMapping
