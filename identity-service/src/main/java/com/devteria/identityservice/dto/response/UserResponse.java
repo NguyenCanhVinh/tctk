@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -21,6 +22,8 @@ public class UserResponse {
   private String username;
   private String firstName;
   private String lastName;
-  LocalDate dob;
+  private LocalDate dob;
+  private Set<String> roles;
+
 
 }

@@ -6,11 +6,14 @@ import com.devteria.identityservice.dto.request.UserUpdateRequest;
 import com.devteria.identityservice.entity.User;
 import com.devteria.identityservice.service.UserService;
 import jakarta.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@Slf4j
 @RestController
 @RequestMapping("/users")
 public class UserController {
@@ -28,6 +31,12 @@ public class UserController {
 
     @GetMapping
     List<User> getUsers(){
+
+        var authentication=SecurityContextHolder.getContext().getAuthentication();
+
+        log.info("username: {}", authentication.getName());
+        authentication.getAuthorities().forEach(grantedAuthority -> log.info("grantedAuthority: {}", grantedAuthority.getAuthority()));
+
         return userService.getUsers();
     }
 
