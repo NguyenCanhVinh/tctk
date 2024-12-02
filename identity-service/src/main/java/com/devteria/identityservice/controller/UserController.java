@@ -3,6 +3,7 @@ package com.devteria.identityservice.controller;
 import com.devteria.identityservice.dto.request.ApiResponse;
 import com.devteria.identityservice.dto.request.UserCreationRequest;
 import com.devteria.identityservice.dto.request.UserUpdateRequest;
+import com.devteria.identityservice.dto.response.UserResponse;
 import com.devteria.identityservice.entity.User;
 import com.devteria.identityservice.service.UserService;
 import jakarta.validation.Valid;
@@ -55,4 +56,11 @@ public class UserController {
         userService.deleteUser(userId);
         return "User has been deleted";
     }
+
+    @GetMapping("/myInfo")
+    UserResponse getMyInfo(){
+        return userService.getMyInfo();
+    }
+
+
 }

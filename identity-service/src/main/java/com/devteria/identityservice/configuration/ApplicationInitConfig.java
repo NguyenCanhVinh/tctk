@@ -3,7 +3,6 @@ package com.devteria.identityservice.configuration;
 import com.devteria.identityservice.entity.User;
 import com.devteria.identityservice.enums.Role;
 import com.devteria.identityservice.repository.UserRepository;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationRunner;
@@ -20,6 +19,7 @@ public class ApplicationInitConfig {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    @Bean
     ApplicationRunner applicationRunner(UserRepository userRepository){
         return args -> {
            if (userRepository.findByUsername("admin").isEmpty()){
@@ -30,7 +30,6 @@ public class ApplicationInitConfig {
                        .password(passwordEncoder.encode("admin"))
                        .roles(roles)
                        .build();
-
 
                userRepository.save(user);
                log.warn("admin user has been created with default password: admin, pleas");
