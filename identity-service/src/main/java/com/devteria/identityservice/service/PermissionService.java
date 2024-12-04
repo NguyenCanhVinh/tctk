@@ -23,7 +23,7 @@ public class PermissionService {
     permissionRepository.deleteById(name);
   }
 
-  public List<PermissionResponse> getPermission(){
+  public List<Permission> getPermission(){
     return permissionRepository.findAll();
   }
 
@@ -33,13 +33,8 @@ public class PermissionService {
     permission.setName(permissionRequest.getName());
     permission.setDescription(permissionRequest.getDescription());
 
-    Permission savePermission= permissionRepository.save(permission);
 
-    PermissionResponse permissionResponse= new PermissionResponse();
-    permissionResponse.setName(savePermission.getName());
-    permissionResponse.setDescription(savePermission.getDescription());
-
-    return permissionResponse;
+    return permissionRepository.save(permission);
 
 
   }
