@@ -7,6 +7,7 @@ import com.devteria.identityservice.entity.User;
 import com.devteria.identityservice.enums.Role;
 import com.devteria.identityservice.exception.AppException;
 import com.devteria.identityservice.exception.ErrorCode;
+import com.devteria.identityservice.repository.RoleRepository;
 import com.devteria.identityservice.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +33,9 @@ public class UserService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    @Autowired
+    private RoleRepository roleRepository;
+
     public User createUser(UserCreationRequest request){
         User user = new User();
 
@@ -55,10 +59,12 @@ public class UserService {
     public User updateUser(String userId, UserUpdateRequest request) {
         User user = getUser(userId);
 
-        user.setPassword(request.getPassword());
+        user.setPassword(passwordEncoder.encode(request.getPassword()));
         user.setFirstName(request.getFirstName());
         user.setLastName(request.getLastName());
         user.setDob(request.getDob());
+        var roles= roleRepository.findAllById(request.getRoles());
+        user.setRoles(new HashSet<>(roles));
 
         return userRepository.save(user);
     }
