@@ -11,15 +11,20 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-@RestController ("/permission")
-@AllArgsConstructor
+@RestController
+@RequestMapping("/permission")
 public class PermissionController {
 
   private  final PermissionService permissionService;
+
+  public PermissionController(PermissionService permissionService) {
+    this.permissionService = permissionService;
+  }
 
   @PostMapping
   public ApiResponse<Permission> createPermission(@RequestBody @Valid PermissionRequest permissionRequest){
@@ -39,6 +44,7 @@ public class PermissionController {
     permissionService.deletePermission(permission);
     return ApiResponse.<Void>builder().build();
   }
+
 
 
 }
