@@ -1,7 +1,6 @@
 package com.devteria.identityservice.service;
 
 import com.devteria.identityservice.dto.request.PermissionRequest;
-import com.devteria.identityservice.dto.response.PermissionResponse;
 import com.devteria.identityservice.entity.Permission;
 import com.devteria.identityservice.repository.PermissionRepository;
 import lombok.extern.slf4j.Slf4j;

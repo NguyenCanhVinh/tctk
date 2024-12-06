@@ -12,6 +12,7 @@ import com.devteria.identityservice.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
@@ -59,7 +60,7 @@ public class UserService {
     public User updateUser(String userId, UserUpdateRequest request) {
         User user = getUser(userId);
 
-        user.setPassword(passwordEncoder.encode(request.getPassword()));
+       // user.setPassword(passwordEncoder.encode(request.getPassword()));
         user.setFirstName(request.getFirstName());
         user.setLastName(request.getLastName());
         user.setDob(request.getDob());
@@ -74,7 +75,8 @@ public class UserService {
     }
 
 
-    @PreAuthorize("hasRole('ADMIN')")
+//    @PreAuthorize("hasRole('ADMIN')")
+    @Secured({"delete"})
     public List<User> getUsers(){
         log.info("in method get users");
         return userRepository.findAll();

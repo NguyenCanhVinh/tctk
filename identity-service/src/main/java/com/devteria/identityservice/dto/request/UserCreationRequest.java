@@ -1,5 +1,6 @@
 package com.devteria.identityservice.dto.request;
 
+import com.devteria.identityservice.validator.DobConstraint;
 import jakarta.validation.constraints.Size;
 
 import java.time.LocalDate;
@@ -11,6 +12,8 @@ public class UserCreationRequest {
     private String password;
     private String firstName;
     private String lastName;
+
+    @DobConstraint(min = 18, message = "INVALID_DOB")
     private LocalDate dob;
 
     public String getUsername() {
