@@ -17,4 +17,9 @@ public class InvalidatedToken {
     private String id;
 
     private Date expiryTime;
+
+    private String status;
+
+    private String username;
+
 }

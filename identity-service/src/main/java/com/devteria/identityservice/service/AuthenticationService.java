@@ -93,9 +93,13 @@ public class AuthenticationService {
     String jit= signToken.getJWTClaimsSet().getJWTID();
     Date expiryTime= signToken.getJWTClaimsSet().getExpirationTime();
 
+    String username= signToken.getJWTClaimsSet().getSubject();
+
     InvalidatedToken invalidatedToken= InvalidatedToken.builder()
             .id(jit)
             .expiryTime(expiryTime)
+            .status("logout")
+            .username(username)
             .build();
 
     invalidatedTokenRepository.save(invalidatedToken);
