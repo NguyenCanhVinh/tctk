@@ -1,17 +1,22 @@
 server:
   port: 8081
   servlet:
-    context-path:    
-
+    context-path:
+#  docker build -t identity-service:0.0.1 .
+#  docker run -d identity-service:0.0.1
+#  docker run --name identity-service -p 8081:8081 -e DBMD_CONNECTION=jdbc:mysql://mysql:3306/identity_service identity-service:0.0.1
+#  docker run --name identity-service --network devteria-network -p 8081:8081 -e DBMD_CONNECTION=jdbc:mysql://mysql:3306/identity_service identity-service:0.0.1
+#--------------------------------------------------
+#  docker build -t canhvinh/identity-service:0.0.9 .
+#  docker push canhvinh/identity-service:0.0.9
 spring:
   datasource:
-    url: ${DBMD_CONNECTION:jdbc:mysql://localhost:3306/identity_service}
+    url: ${DBMD_CONNECTION:jdbc:mysql://mysql/identity_service}
     username: ${DBMS_USERNAME:root}
-    password: ${DBMS_PASSWORD:rooy}
+    password: ${DBMS_PASSWORD:root}
   jpa:
     hibernate:
       ddl-auto: update
     show-sql: true
 jwt:
   signerKey: "LNoSyo0dt7Y603iqmCRPxohK23cMcAtyHNmTsviwFqRuAl1GCPKkcUOGUmZvw/cM"
-
