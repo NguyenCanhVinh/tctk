@@ -6,6 +6,7 @@ import com.devteria.identityservice.dto.response.UserResponse;
 import com.devteria.identityservice.entity.User;
 import com.devteria.identityservice.enums.Role;
 import com.devteria.identityservice.exception.AppException;
+import com.devteria.identityservice.exception.BusinessErrorException;
 import com.devteria.identityservice.exception.ErrorCode;
 import com.devteria.identityservice.repository.RoleRepository;
 import com.devteria.identityservice.repository.UserRepository;
@@ -25,6 +26,7 @@ import org.springframework.stereotype.Service;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -92,7 +94,7 @@ public class UserService {
     }
 
     @PostAuthorize("returnObject.username == authentication.name")
-    @Cacheable(value = "user", key = "#id")
+//    @Cacheable(value = "user", key = "#id")
     public User getUserById(String id) {
         return userRepository.findById(id).orElse(null);
     }
@@ -115,5 +117,6 @@ public class UserService {
 
         return userResponse;
     }
+
 
 }
