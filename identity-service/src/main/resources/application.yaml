@@ -1,5 +1,5 @@
 server:
-  port: 8081
+  port: 8082
   servlet:
     context-path:
 #  docker build -t identity-service:0.0.1 .
@@ -18,5 +18,15 @@ spring:
     hibernate:
       ddl-auto: update
     show-sql: true
+  application:
+    name: spring-data-redis-cache
+  redis:
+    host: localhost
+    port: 6379
+  cache:
+    type: redis
 jwt:
   signerKey: "LNoSyo0dt7Y603iqmCRPxohK23cMcAtyHNmTsviwFqRuAl1GCPKkcUOGUmZvw/cM"
+
+
+

@@ -9,6 +9,8 @@ import com.devteria.identityservice.service.UserService;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,6 +22,7 @@ import java.util.List;
 public class UserController {
     @Autowired
     private UserService userService;
+
 
     @PostMapping
     ApiResponse<User> createUser(@RequestBody @Valid UserCreationRequest request){
@@ -41,9 +44,15 @@ public class UserController {
         return userService.getUsers();
     }
 
-    @GetMapping("/{userId}")
-    User getUser(@PathVariable("userId") String userId){
-        return userService.getUser(userId);
+//    @GetMapping("/{userId}")
+//    User getUser(@PathVariable String userId){
+//        return userService.getUser(userId);
+//    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<User> getUserById(@PathVariable String id) {
+        User user = userService.getUserById(id);
+        return user != null ? ResponseEntity.ok(user) : ResponseEntity.notFound().build();
     }
 
     @PutMapping("/{userId}")

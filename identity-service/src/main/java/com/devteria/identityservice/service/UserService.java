@@ -11,6 +11,7 @@ import com.devteria.identityservice.repository.RoleRepository;
 import com.devteria.identityservice.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PostAuthorize;
@@ -77,15 +78,23 @@ public class UserService {
 
 //    @PreAuthorize("hasRole('ADMIN')")
     @Secured({"delete"})
+//    @Cacheable(value = "users")
     public List<User> getUsers(){
         log.info("in method get users");
         return userRepository.findAll();
     }
     @PostAuthorize("returnObject.username == authentication.name")
+//    @Cacheable(value = "user", key = "#id")
     public User getUser(String id){
         log.info("in method get users by id");
         return userRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("User not found"));
+    }
+
+    @PostAuthorize("returnObject.username == authentication.name")
+    @Cacheable(value = "user", key = "#id")
+    public User getUserById(String id) {
+        return userRepository.findById(id).orElse(null);
     }
 
     public UserResponse getMyInfo(){
