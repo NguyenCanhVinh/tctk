@@ -9,10 +9,13 @@ import com.devteria.identityservice.service.UserService;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @RestController
@@ -60,6 +63,13 @@ public class UserController {
     @GetMapping("/myInfo")
     UserResponse getMyInfo(){
         return userService.getMyInfo();
+    }
+
+    @PostMapping("/upload-customers-data")
+    public ResponseEntity<?> uploadCustomersData(@RequestParam("file") MultipartFile file){
+        this.userService.saveCustomersToDatabase(file);
+        return ResponseEntity
+          .ok(Map.of("Message" , " Users data uploaded and saved to database successfully"));
     }
 
 
