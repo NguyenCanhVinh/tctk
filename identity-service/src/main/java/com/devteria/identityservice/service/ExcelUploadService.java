@@ -42,7 +42,7 @@ public class ExcelUploadService {
             case 2 -> user.setLastName(cell.getStringCellValue());
             case 3 -> user.setUsername(cell.getStringCellValue());
             case 4 -> user.setPassword(cell.getStringCellValue());
-            case 5 -> user.setDob(cell.getLocalDateTimeCellValue().toLocalDate());
+//            case 5 -> user.setDob(cell.getLocalDateTimeCellValue().toLocalDate());
             default -> {
             }
           }

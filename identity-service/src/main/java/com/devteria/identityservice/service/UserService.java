@@ -9,6 +9,7 @@ import com.devteria.identityservice.exception.AppException;
 import com.devteria.identityservice.exception.ErrorCode;
 import com.devteria.identityservice.repository.RoleRepository;
 import com.devteria.identityservice.repository.UserRepository;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -118,6 +119,13 @@ public class UserService {
                 throw new IllegalArgumentException("The file is not a valid excel file");
             }
         }
+    }
+
+    public List<User> exportCustomerToExcel(HttpServletResponse response) throws IOException {
+        List<User> customers = userRepository.findAll();
+        ExcelExportUtils exportUtils = new ExcelExportUtils(customers);
+        exportUtils.exportDataToExcel(response);
+        return customers;
     }
 
 }
