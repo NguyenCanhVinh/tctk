@@ -122,10 +122,10 @@ public class UserService {
     }
 
     public List<User> exportCustomerToExcel(HttpServletResponse response) throws IOException {
-        List<User> customers = userRepository.findAll();
-        ExcelExportUtils exportUtils = new ExcelExportUtils(customers);
+        List<User> users = userRepository.findAll();
+        ExcelExportUtils exportUtils = new ExcelExportUtils(users);
         exportUtils.exportDataToExcel(response);
-        return customers;
+        return users;
     }
 
 }

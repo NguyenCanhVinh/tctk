@@ -20,7 +20,7 @@ public class ExcelExportUtils {
   private XSSFSheet sheet;
   private List<User> userList;
 
-  public ExcelExportUtils(List<User> customerList) {
+  public  ExcelExportUtils(List<User> customerList) {
     this.userList = customerList;
     workbook = new XSSFWorkbook();
   }
