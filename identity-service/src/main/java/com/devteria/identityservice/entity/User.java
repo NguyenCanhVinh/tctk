@@ -12,10 +12,10 @@ import java.util.Set;
 
 
 @NoArgsConstructor
-@AllArgsConstructor
 @Getter
 @Setter
 @Builder
+@AllArgsConstructor
 @Entity
 public class User {
      @Id

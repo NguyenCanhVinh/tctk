@@ -6,10 +6,10 @@ import lombok.*;
 
 import java.util.Date;
 
-@Getter
 @Setter
 @Builder
 @NoArgsConstructor
+@Getter
 @AllArgsConstructor
 @Entity
 public class InvalidatedToken {
