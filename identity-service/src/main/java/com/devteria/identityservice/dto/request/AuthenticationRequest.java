@@ -8,10 +8,12 @@ public class AuthenticationRequest {
 
   private String username;
   private String password;
+  private String captcha;
 
-  public AuthenticationRequest(String username, String password) {
+  public AuthenticationRequest(String username, String password, String captcha) {
     this.username = username;
     this.password = password;
+    this.captcha = captcha;
   }
 
   public String getUsername() {
@@ -29,4 +31,12 @@ public class AuthenticationRequest {
   public void setPassword(String password) {
     this.password = password;
   }
+  public String getCaptcha() {
+    return captcha;
+  }
+  public void setCaptcha(String captcha) {
+    this.captcha = captcha;
+  }
+
+
 }

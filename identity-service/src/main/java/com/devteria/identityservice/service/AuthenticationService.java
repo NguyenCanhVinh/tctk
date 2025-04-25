@@ -22,6 +22,7 @@ import com.nimbusds.jose.crypto.MACSigner;
 import com.nimbusds.jose.crypto.MACVerifier;
 import com.nimbusds.jwt.JWTClaimsSet;
 import com.nimbusds.jwt.SignedJWT;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.experimental.NonFinal;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,6 +52,7 @@ public class AuthenticationService {
   @NonFinal
   @Value("${jwt.signerKey}")
   protected String SIGNER_KEY;
+//  private HttpServletRequest httpRequest;
 
 
   public IntrospectResponse introspect(IntrospectRequest request) throws JOSEException, ParseException {
@@ -68,22 +70,55 @@ public class AuthenticationService {
       .valid(isValid)
       .build();
   }
-  public AuthenticationResponse authenticate(AuthenticationRequest request){
-    PasswordEncoder passwordEncoder= new BCryptPasswordEncoder(10);
+//  public AuthenticationResponse authenticate(AuthenticationRequest request, HttpServletRequest httpRequest){
+//    PasswordEncoder passwordEncoder= new BCryptPasswordEncoder(10);
+//
+//     var user = userRepository.findByUsername(request.getUsername())
+//       .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
+//
+//     boolean authenticated = passwordEncoder.matches(request.getPassword(), user.getPassword());
+//     if (!authenticated) throw new AppException(ErrorCode.UNAUTHENTICATED);
+//
+//     var token= generatePassword(user);
+//
+//     return  AuthenticationResponse.builder()
+//       .token(token)
+//       .authenticated(true)
+//       .build();
+//
+//  }
 
-     var user = userRepository.findByUsername(request.getUsername())
-       .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
 
-     boolean authenticated = passwordEncoder.matches(request.getPassword(), user.getPassword());
-     if (!authenticated) throw new AppException(ErrorCode.UNAUTHENTICATED);
+  public AuthenticationResponse authenticate(AuthenticationRequest request, HttpServletRequest httpRequest) throws JOSEException, ParseException {
+    // Kiểm tra nếu httpRequest là null
+    if (httpRequest == null) {
+      throw new IllegalArgumentException("HttpServletRequest cannot be null");
+    }
+    PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
 
-     var token= generatePassword(user);
+    // Lấy CAPTCHA từ session
+    String captchaInSession = (String) httpRequest.getSession().getAttribute("captcha");
 
-     return  AuthenticationResponse.builder()
-       .token(token)
-       .authenticated(true)
-       .build();
+    // Kiểm tra CAPTCHA
+    if (!request.getCaptcha().equals(captchaInSession)) {
+      throw new AppException(ErrorCode.INVALID_CAPTCHA);
+    }
 
+    // Tìm người dùng theo tên đăng nhập
+    var user = userRepository.findByUsername(request.getUsername())
+            .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
+
+    // Xác thực mật khẩu
+    boolean authenticated = passwordEncoder.matches(request.getPassword(), user.getPassword());
+    if (!authenticated) throw new AppException(ErrorCode.UNAUTHENTICATED);
+
+    // Tạo token nếu xác thực thành công
+    var token = generatePassword(user);
+
+    return AuthenticationResponse.builder()
+            .token(token)
+            .authenticated(true)
+            .build();
   }
 
   public  void logout(LogoutRequest request) throws ParseException, JOSEException {
@@ -193,6 +228,5 @@ public class AuthenticationService {
 
   }
 
-
-
+  
 }

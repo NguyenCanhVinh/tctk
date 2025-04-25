@@ -25,7 +25,7 @@ import javax.crypto.spec.SecretKeySpec;
 @EnableMethodSecurity
 public class SecurityConfig {
 
-    private  final  String[] PUBLIC_ENDPOINTS = {"/user", "/auth/token", "/auth/introspect" , "/auth/logout", "/refresh"};
+    private  final  String[] PUBLIC_ENDPOINTS = {"/user", "/auth/token","/auth/captcha","/auth/introspect" , "/auth/logout", "/refresh"};
 
 
     private  final  CustomJwtDecoder customJwtDecoder;
@@ -39,7 +39,7 @@ public class SecurityConfig {
 
         http.authorizeHttpRequests(requests ->
                 requests
-                        .requestMatchers(HttpMethod.POST,PUBLIC_ENDPOINTS).permitAll()
+                        .requestMatchers(PUBLIC_ENDPOINTS).permitAll()
                         .anyRequest().authenticated());
 
         http.oauth2ResourceServer(oauth2 ->
